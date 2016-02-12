@@ -702,10 +702,17 @@ policies and contribution forms [3].
         // instanceof doesn't work if the node is from another window (like an
         // iframe's contentWindow):
         // http://www.w3.org/Bugs/Public/show_bug.cgi?id=12295
-        if ("nodeType" in object &&
-            "nodeName" in object &&
-            "nodeValue" in object &&
-            "childNodes" in object) {
+        try {
+            var has_node_properties = ("nodeType" in object &&
+                                       "nodeName" in object &&
+                                       "nodeValue" in object &&
+                                       "childNodes" in object);
+        } catch (e) {
+            // We're probably cross-origin, which means we aren't a node
+            return false;
+        }
+
+        if (has_node_properties) {
             try {
                 object.nodeType;
             } catch (e) {
@@ -823,7 +830,12 @@ policies and contribution forms [3].
 
         /* falls through */
         default:
-            return typeof val + ' "' + truncate(String(val), 60) + '"';
+            try {
+                return typeof val + ' "' + truncate(String(val), 60) + '"';
+            } catch(e) {
+                return ("[stringifying object threw " + String(e) +
+                        " with type " + String(typeof e) + "]");
+            }
         }
     }
     expose(format_value, "format_value");
@@ -1443,7 +1455,7 @@ policies and contribution forms [3].
         var args = Array.prototype.slice.call(arguments, 2);
         return setTimeout(this.step_func(function() {
             return f.apply(test_this, args);
-        }, timeout * tests.timeout_multiplier));
+        }), timeout * tests.timeout_multiplier);
     }
 
     Test.prototype.add_cleanup = function(callback) {
