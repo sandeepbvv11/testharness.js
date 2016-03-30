@@ -1203,15 +1203,20 @@ policies and contribution forms [3].
                 TIMEOUT_ERR: 'TimeoutError',
                 INVALID_NODE_TYPE_ERR: 'InvalidNodeTypeError',
                 DATA_CLONE_ERR: 'DataCloneError'
+				DOMSTRING_SIZE_ERR:'DomStringSizeError'
+				VALIDATION_ERR:'ValidationError'
+				NO_DATA_ALLOWED_ERR:'NoDataAllowedError'
             };
 
             var name = code in code_name_map ? code_name_map[code] : code;
 
             var name_code_map = {
                 IndexSizeError: 1,
-                HierarchyRequestError: 3,
+                DomStringSizeError:2,
+				HierarchyRequestError: 3,
                 WrongDocumentError: 4,
                 InvalidCharacterError: 5,
+				NoDataAllowedError:6,
                 NoModificationAllowedError: 7,
                 NotFoundError: 8,
                 NotSupportedError: 9,
@@ -1221,6 +1226,7 @@ policies and contribution forms [3].
                 InvalidModificationError: 13,
                 NamespaceError: 14,
                 InvalidAccessError: 15,
+				ValidationError:16,
                 TypeMismatchError: 17,
                 SecurityError: 18,
                 NetworkError: 19,
@@ -1230,8 +1236,8 @@ policies and contribution forms [3].
                 TimeoutError: 23,
                 InvalidNodeTypeError: 24,
                 DataCloneError: 25,
-
-                EncodingError: 0,
+                                
+				EncodingError: 0,
                 NotReadableError: 0,
                 UnknownError: 0,
                 ConstraintError: 0,
@@ -1240,6 +1246,7 @@ policies and contribution forms [3].
                 ReadOnlyError: 0,
                 VersionError: 0,
                 OperationError: 0,
+				
             };
 
             if (!(name in name_code_map)) {
